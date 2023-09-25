@@ -2,7 +2,7 @@
 
 A simple ping pong game made with raylib.
 
-# Build
+## Build
 
 Requires [raylib](https://www.raylib.com/)
 
@@ -13,7 +13,7 @@ cd pong-c
 ./pong
 ```
 
-# Controls
+## Controls
 * Player one: `right arrow`, `left arrow`
 * Player two: `A`, `D`
 * `Esc` to exit
