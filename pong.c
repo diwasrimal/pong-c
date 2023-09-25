@@ -4,13 +4,11 @@
 
 #define W_WIDTH 800     // Window
 #define W_HEIGHT 500
-#define B_WIDTH 50      // Board (where ball bounces)
+#define B_WIDTH 50      // Board
 #define B_HEIGHT 10
 #define PADDING 10
 
 typedef struct {
-    int width;
-    int height;
     int x;
     int y;
 } Board;
@@ -22,19 +20,19 @@ typedef struct {
     Vector2 vec;
 } Ball;
 
+Ball initBall(void);
+Board initTopBoard(void);
+Board initBottomBoard(void);
 
 int main(void) {
-    double waitTime = 0.006;
-
     Ball ball;
-    ball.radius = 6;
-    ball.x = W_WIDTH / 2;
-    ball.y = W_HEIGHT / 2;
-    ball.vec.x = 1;
-    ball.vec.y = 1;
+    Board topBoard, bottomBoard;
+    double waitTime;
 
-    Board topBoard = {.x = W_WIDTH / 2 - B_WIDTH / 2, .y = PADDING};
-    Board bottomBoard = {.x = W_WIDTH / 2 - B_WIDTH / 2, .y = W_HEIGHT - PADDING - B_HEIGHT};
+    ball = initBall();
+    topBoard = initTopBoard();
+    bottomBoard = initBottomBoard();
+    waitTime = 0.006;
 
     InitWindow(W_WIDTH, W_HEIGHT, "Pong");
 
@@ -50,14 +48,9 @@ int main(void) {
 
         // Restart
         if (IsKeyDown(KEY_R)) {
-            topBoard.x = W_WIDTH / 2 - B_WIDTH / 2;
-            topBoard.y = PADDING;
-            bottomBoard.x = W_WIDTH / 2 - B_WIDTH / 2;
-            bottomBoard.y = W_HEIGHT - PADDING - B_HEIGHT;
-            ball.x = bottomBoard.x - 10 - ball.radius;
-            ball.y = bottomBoard.y - 10 - ball.radius;
-            ball.vec.x = 1;
-            ball.vec.y = 1;
+            ball = initBall();
+            topBoard = initTopBoard();
+            bottomBoard = initBottomBoard();
             waitTime = 0.006;
         }
 
@@ -85,7 +78,7 @@ int main(void) {
 
         DrawRectangle(topBoard.x, topBoard.y, B_WIDTH, B_HEIGHT, RAYWHITE);
         DrawRectangle(bottomBoard.x, bottomBoard.y, B_WIDTH, B_HEIGHT, RAYWHITE);
-        DrawCircle(ball.x, ball.y, ball.radius, RAYWHITE);
+        DrawCircle(ball.x, ball.y, ball.radius, GOLD);
 
         EndDrawing();
         WaitTime(waitTime);
@@ -93,4 +86,31 @@ int main(void) {
 
     CloseWindow();
     return 0;
+}
+
+Board initTopBoard(void)
+{
+    Board b;
+    b.x = W_WIDTH / 2 - B_WIDTH / 2;
+    b.y = PADDING;
+    return b;
+}
+
+Board initBottomBoard(void)
+{
+    Board b;
+    b.x = W_WIDTH / 2 - B_WIDTH / 2;
+    b.y = W_HEIGHT - PADDING - B_HEIGHT;
+    return b;
+}
+
+Ball initBall(void)
+{
+    Ball ball;
+    ball.radius = 6;
+    ball.x = W_WIDTH / 2;
+    ball.y = W_HEIGHT / 2;
+    ball.vec.x = 1;
+    ball.vec.y = 1;
+    return ball;
 }
